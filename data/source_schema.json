@@ -1,0 +1,69 @@
+{
+  "name": "legacy_customer_export",
+  "primary_key": [
+    "CUST_ID"
+  ],
+  "description": "Flat customer export from the Northline legacy billing system.",
+  "fields": [
+    {
+      "name": "CUST_ID",
+      "type": "string",
+      "required": true,
+      "description": "Legacy customer identifier"
+    },
+    {
+      "name": "FIRST_NME",
+      "type": "string",
+      "required": false,
+      "description": "Given name"
+    },
+    {
+      "name": "LAST_NME",
+      "type": "string",
+      "required": false,
+      "description": "Family name"
+    },
+    {
+      "name": "EMAIL_ADDR",
+      "type": "string",
+      "required": false,
+      "description": "Email as stored in the legacy system"
+    },
+    {
+      "name": "PHONE",
+      "type": "string",
+      "required": false,
+      "description": "Free-text phone number"
+    },
+    {
+      "name": "SIGNUP_DT",
+      "type": "string",
+      "required": false,
+      "description": "Signup date, expected as MM/DD/YYYY"
+    },
+    {
+      "name": "STATUS_CD",
+      "type": "string",
+      "required": false,
+      "description": "A active, I inactive, S suspended"
+    },
+    {
+      "name": "CREDIT_LIM",
+      "type": "string",
+      "required": false,
+      "description": "Credit limit, sometimes with $ or commas"
+    },
+    {
+      "name": "LOYALTY_PTS",
+      "type": "string",
+      "required": false,
+      "description": "Whole loyalty points"
+    },
+    {
+      "name": "NOTES",
+      "type": "string",
+      "required": false,
+      "description": "Operator notes with no target column"
+    }
+  ]
+}

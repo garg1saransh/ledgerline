@@ -1,0 +1,96 @@
+[
+  {
+    "name": "direct",
+    "label": "Copy value",
+    "description": "Copy a single source value through as text.",
+    "params": []
+  },
+  {
+    "name": "trim",
+    "label": "Trim whitespace",
+    "description": "Strip leading and trailing whitespace.",
+    "params": []
+  },
+  {
+    "name": "lower",
+    "label": "Lowercase",
+    "description": "Trim and lowercase text.",
+    "params": []
+  },
+  {
+    "name": "upper",
+    "label": "Uppercase",
+    "description": "Trim and uppercase text.",
+    "params": []
+  },
+  {
+    "name": "concat",
+    "label": "Concatenate",
+    "description": "Join two or more source fields.",
+    "params": [
+      "separator"
+    ]
+  },
+  {
+    "name": "coalesce",
+    "label": "Coalesce",
+    "description": "Use the first non-blank source field.",
+    "params": []
+  },
+  {
+    "name": "parse_date",
+    "label": "Parse date",
+    "description": "Parse a date with an explicit format into ISO.",
+    "params": [
+      "format"
+    ]
+  },
+  {
+    "name": "parse_decimal",
+    "label": "Parse decimal",
+    "description": "Parse currency-like text into a two-decimal number.",
+    "params": []
+  },
+  {
+    "name": "parse_integer",
+    "label": "Parse integer",
+    "description": "Parse a whole number, rejecting fractions.",
+    "params": []
+  },
+  {
+    "name": "map_enum",
+    "label": "Map codes",
+    "description": "Map source codes onto a target enum.",
+    "params": [
+      "map"
+    ]
+  },
+  {
+    "name": "email_normalize",
+    "label": "Normalize email",
+    "description": "Trim, lowercase, and require an email shape.",
+    "params": []
+  },
+  {
+    "name": "phone_normalize",
+    "label": "Normalize phone",
+    "description": "Keep digits and emit a US E.164 number.",
+    "params": []
+  },
+  {
+    "name": "constant",
+    "label": "Constant",
+    "description": "Write a reviewer-supplied constant.",
+    "params": [
+      "value"
+    ]
+  },
+  {
+    "name": "reject",
+    "label": "Reject field",
+    "description": "Quarantine every row for this field.",
+    "params": [
+      "message"
+    ]
+  }
+]

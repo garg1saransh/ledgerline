@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ececeb">
+  <title>Ledgerline — Customer migration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="/styles.css?v=9">
+</head>
+<body>
+  <video class="stage-motion stage-motion--wide" autoplay muted loop playsinline preload="auto" aria-hidden="true"
+    poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5c3ec08f-2dbf-4c0a-8588-f6106a789443.webp"
+    src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_125226_45cb4f38-aa7e-47e1-885d-ae0b69745369.mp4"></video>
+  <video class="stage-motion stage-motion--narrow" autoplay muted loop playsinline preload="none" aria-hidden="true"
+    poster="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0f4926a4-e660-4df2-9195-2bfb3e341bdd.webp"
+    src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260826_125242_daae1570-386d-4bd5-8896-80499e2371e0.mp4"></video>
+  <div class="app">
+    <header class="top">
+      <div class="brand">
+        <p class="kicker">Ledgerline</p>
+        <h1>Customer<br>migration</h1>
+      </div>
+      <div>
+        <p class="intro">Move legacy_customer_export into customer_master. Approve the plan before any rows load.</p>
+        <div class="top-meta">
+          <span class="chip" id="sample-chip">Customers</span>
+          <button class="text-button" type="button" data-action="reset">Reset workspace</button>
+        </div>
+      </div>
+    </header>
+    <div class="shell">
+      <nav class="rail" id="nav" aria-label="Workbench">
+        <button type="button" data-action="view" data-view="overview">Overview</button>
+        <button type="button" data-action="view" data-view="inputs">Data</button>
+        <button type="button" data-action="view" data-view="agent">Agent</button>
+        <button type="button" data-action="view" data-view="plan">Plan</button>
+        <button type="button" data-action="view" data-view="dryrun">Dry run</button>
+        <button type="button" data-action="view" data-view="quarantine">Quarantine</button>
+        <button type="button" data-action="view" data-view="target">Staging</button>
+        <button type="button" data-action="view" data-view="reconcile">Reconciliation</button>
+        <button type="button" data-action="view" data-view="history">History</button>
+      </nav>
+      <main>
+        <div id="banner" class="banner" hidden></div>
+        <div id="main"></div>
+      </main>
+    </div>
+  </div>
+  <script src="/app.js?v=6"></script>
+</body>
+</html>

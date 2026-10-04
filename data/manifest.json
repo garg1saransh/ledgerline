@@ -1,0 +1,11 @@
+{
+  "max_sample_size": 500,
+  "sources": 1,
+  "targets": 1,
+  "files": [
+    "source_schema.json",
+    "target_schema.json",
+    "transforms.json",
+    "sample.json"
+  ]
+}

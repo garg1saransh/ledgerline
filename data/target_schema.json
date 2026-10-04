@@ -1,0 +1,68 @@
+{
+  "name": "customer_master",
+  "primary_key": [
+    "customer_id"
+  ],
+  "description": "Customer master held in staging until the load is reconciled.",
+  "fields": [
+    {
+      "name": "customer_id",
+      "type": "string",
+      "required": true,
+      "description": "Stable customer key"
+    },
+    {
+      "name": "full_name",
+      "type": "string",
+      "required": true,
+      "description": "Display name"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "required": true,
+      "description": "Normalized email address"
+    },
+    {
+      "name": "phone_e164",
+      "type": "string",
+      "required": false,
+      "description": "Phone in E.164, US numbers assumed"
+    },
+    {
+      "name": "signed_up_on",
+      "type": "date",
+      "required": true,
+      "description": "ISO signup date"
+    },
+    {
+      "name": "status",
+      "type": "enum",
+      "required": true,
+      "enum": [
+        "active",
+        "inactive",
+        "suspended"
+      ],
+      "description": "Account status"
+    },
+    {
+      "name": "credit_limit",
+      "type": "decimal",
+      "required": true,
+      "description": "Credit limit with two decimal places"
+    },
+    {
+      "name": "loyalty_points",
+      "type": "integer",
+      "required": false,
+      "description": "Whole loyalty points"
+    },
+    {
+      "name": "region_code",
+      "type": "string",
+      "required": true,
+      "description": "Region, absent from the legacy export"
+    }
+  ]
+}
