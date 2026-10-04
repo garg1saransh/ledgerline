@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -13,7 +14,7 @@ from app.db import Database
 from app.service import ServiceError, Workbench
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DB = ROOT / "workbench.db"
+DEFAULT_DB = Path("/tmp/workbench.db") if os.environ.get("VERCEL") else ROOT / "workbench.db"
 STATIC_DIR = ROOT / "static"
 
 

@@ -120,11 +120,11 @@ Left out:
 
 ## Review
 
-The review copy is https://concern-roll-treatments-apnic.trycloudflare.com
+The review copy is https://ledgerline-sigma-blush.vercel.app
 
 No login. Open that address and use the workbench. The customer extract is the 23 rows already loaded in the app. The rules agent runs with no key. The language-model agent is available on that host.
 
-Leave the computer that serves this address awake until review is finished. The address stops working if that machine sleeps or the tunnel stops.
+Vercel keeps plans, runs, and staging in temporary storage. A fresh visit still has the customer extract. Saved plans can disappear after the host recycles the app.
 
 ## Deployment
 
