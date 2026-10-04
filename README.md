@@ -124,7 +124,7 @@ The review copy is https://ledgerline-sigma-blush.vercel.app
 
 No login. Open that address and use the workbench. The customer extract is the 23 rows already loaded in the app. The rules agent runs with no key. The language-model agent is available on that host.
 
-Vercel keeps plans, runs, and staging in temporary storage. A fresh visit still has the customer extract. Saved plans can disappear after the host recycles the app.
+Plans, runs, quarantine, and staging are stored in one shared workspace, so a later visit sees the same approved plan and loaded rows. The customer extract is part of the app and does not depend on that workspace.
 
 ## Deployment
 

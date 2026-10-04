@@ -1,12 +1,15 @@
 import json
 from decimal import Decimal
 
+import httpx
 from fastapi.testclient import TestClient
 
 from app.catalog import MAX_SAMPLE_SIZE, SAMPLE_RECORDS, SampleLimitExceeded, bounded_sample
+from app.db import Database
 from app.engine import evaluate_plan, raw_source_totals, totals_for
 from app.main import create_app
 from app.transforms import catalog_is_implemented
+from app.workspace import Workspace
 
 
 def client_for(tmp_path):
@@ -364,3 +367,50 @@ def _approved_style_mappings():
             "params": {"value": "UNASSIGNED"},
         },
     ]
+
+
+def test_workspace_survives_a_second_database_file(tmp_path):
+    blob = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        host = request.url.host
+        if request.method == "GET" and host.endswith("blob.vercel-storage.com"):
+            name = "workbench.db" if "workbench.db" in request.url.path else "writer.lock"
+            if name not in blob:
+                return httpx.Response(404)
+            body, etag = blob[name]
+            return httpx.Response(200, content=body, headers={"etag": etag})
+        if request.method == "PUT":
+            pathname = request.url.params["pathname"]
+            name = "writer.lock" if pathname.endswith("writer.lock") else "workbench.db"
+            if name == "writer.lock" and name in blob and request.headers.get("x-allow-overwrite") == "0":
+                return httpx.Response(409, json={"error": {"message": "already exists"}})
+            etag = '"lock"' if name == "writer.lock" else '"db"'
+            blob[name] = (request.content, etag)
+            return httpx.Response(200, json={"url": f"https://storeid.private.blob.vercel-storage.com/{pathname}", "etag": etag})
+        if request.method == "POST" and request.url.path.endswith("/delete"):
+            blob.pop("writer.lock", None)
+            return httpx.Response(200, json={})
+        return httpx.Response(500, text=str(request.url))
+
+    def open_workspace(folder):
+        folder.mkdir(parents=True, exist_ok=True)
+        path = folder / "workbench.db"
+        database = Database(str(path))
+        client = httpx.Client(transport=httpx.MockTransport(handler))
+        return database, Workspace(path, database, "vercel_blob_rw_storeid_secret", client)
+
+    first_db, first = open_workspace(tmp_path / "one")
+    first.pull()
+    with first_db.session() as connection:
+        connection.execute("UPDATE counters SET value = 4 WHERE name = 'plan'")
+    first.push_if_changed()
+
+    second_db, second = open_workspace(tmp_path / "two")
+    second.pull()
+    with second_db.session() as connection:
+        value = connection.execute("SELECT value FROM counters WHERE name = 'plan'").fetchone()["value"]
+    assert value == 4
+    second.acquire_writer()
+    second.release_writer()
+    assert "writer.lock" not in blob

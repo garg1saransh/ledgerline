@@ -9,9 +9,11 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from starlette.concurrency import run_in_threadpool
 
 from app.db import Database
 from app.service import ServiceError, Workbench
+from app.workspace import Workspace, WorkspaceError
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DB = Path("/tmp/workbench.db") if os.environ.get("VERCEL") else ROOT / "workbench.db"
@@ -36,9 +38,31 @@ class RevisionIn(BaseModel):
 
 
 def create_app(db_path: str | None = None) -> FastAPI:
-    workbench = Workbench(Database(db_path or str(DEFAULT_DB)))
+    database = Database(db_path or str(DEFAULT_DB))
+    workspace = Workspace.from_env(Path(database.path), database) if db_path is None else None
+    workbench = Workbench(database)
     app = FastAPI(title="Ledgerline Migration Workbench", version="1.0.0")
     app.state.workbench = workbench
+
+    @app.middleware("http")
+    async def shared_workspace(request, call_next):
+        if workspace is None or not request.url.path.startswith("/api/") or request.url.path in {"/api/health", "/api/inputs"}:
+            return await call_next(request)
+        try:
+            async with workspace.gate:
+                if request.method == "GET":
+                    await run_in_threadpool(workspace.pull)
+                    return await call_next(request)
+                await run_in_threadpool(workspace.acquire_writer)
+                try:
+                    await run_in_threadpool(workspace.pull)
+                    response = await call_next(request)
+                    await run_in_threadpool(workspace.push_if_changed)
+                    return response
+                finally:
+                    await run_in_threadpool(workspace.release_writer)
+        except WorkspaceError as exc:
+            return JSONResponse(status_code=503, content={"detail": exc.detail})
 
     @app.exception_handler(ServiceError)
     async def service_error(_request, exc: ServiceError):
