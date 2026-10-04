@@ -118,6 +118,14 @@ Left out:
 - Distributed migration
 - Live cloud connectors
 
+## Review
+
+The review copy is https://concern-roll-treatments-apnic.trycloudflare.com
+
+No login. Open that address and use the workbench. The customer extract is the 23 rows already loaded in the app. The rules agent runs with no key. The language-model agent is available on that host.
+
+Leave the computer that serves this address awake until review is finished. The address stops working if that machine sleeps or the tunnel stops.
+
 ## Deployment
 
 This repository is the application. It runs as one FastAPI process and stores state in a local SQLite file, `workbench.db`, which is created on first start and is gitignored.
